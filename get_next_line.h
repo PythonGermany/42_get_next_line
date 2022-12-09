@@ -17,10 +17,11 @@
 #  define BUFFER_SIZE 1
 # endif
 
+#include <stddef.h>
+
 char	*get_next_line(int fd);
-char	*ft_substr(char *s, unsigned int start, int len);
-char	*append_buffer(char *str, char *buffer, int size);
-int		contains_char(char *str, char c);
-int		ft_strlen(char *s);
+int	ft_split_stash(char **line, char **src_stash, char **dst_stash);
+int ft_strlen_gnl(char *str, int line_break);
+void ft_append_gnl(char **dst, char *src, int line_break);
 
 #endif
