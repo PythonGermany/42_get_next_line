@@ -43,8 +43,7 @@ char	*read_data(int fd, char *line, char **stash)
 			break ;
 		ret = read(fd, buffer, BUFFER_SIZE);
 	}
-	if (buffer && ret < 1)
-		free(buffer);
+	free(buffer);
 	if (line && ret == -1)
 		return (free(line), (char *)0);
 	return (line);
@@ -57,23 +56,16 @@ int	split_data(char **line, char **src_data, char **dst_data)
 	if (ft_strlen(*src_data, 0) == ft_strlen(*src_data, 1))
 	{
 		ft_cpappend(line, *src_data, 0);
-		if (*dst_data)
-			free(*dst_data);
-		*dst_data = 0;
+		ft_free((void **)dst_data, 0);
 		if (!*line || line[0][ft_strlen(*line, 0) - 1] == '\n')
-		{
-			if (*src_data)
-				free(*src_data);
 			return (0);
-		}
 		return (1);
 	}
 	buf = 0;
 	if (ft_cpappend(line, *src_data, 1))
 		if (!ft_cpappend(&buf, *src_data + ft_strlen(*src_data, 1), 0))
-			*line = 0;
-	free(*src_data);
-	*dst_data = buf;
+			ft_free((void **)line, 0);
+	ft_free((void **)dst_data, buf);
 	return (0);
 }
 
@@ -92,10 +84,8 @@ char	*ft_cpappend(char **dst, char *src, int line_break)
 		while (i-- > 0)
 			buf[i] = dst[0][i];
 	}
-	if (*dst)
-		free(*dst);
-	*dst = buf;
-	return (*dst);
+	ft_free((void **)dst, buf);
+	return (buf);
 }
 
 int	ft_strlen(char *str, int line_break)
