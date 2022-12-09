@@ -20,12 +20,10 @@
 # include <stdlib.h>
 
 char	*get_next_line(int fd);
-void	read_data(int fd, char **line, char **stash);
+char	*read_data(int fd, char *line, char **stash);
 int		split_data(char **line, char **src_data, char **dst_data);
-int		ft_cpappend(char **dst, char *src, int line_break);
+char	*ft_cpappend(char **dst, char *src, int line_break);
 int		ft_strlen(char *str, int line_break);
 void	*ft_calloc(size_t count, size_t size);
-
-int ft_test(char **stash);
 
 #endif

@@ -26,10 +26,3 @@ void	*ft_calloc(size_t count, size_t size)
 			*((unsigned char *)ptr + i++) = 0;
 	return (ptr);
 }
-
-int ft_test(char **stash)
-{
-	if (stash[0])
-		return (1);
-	return(0);
-}
