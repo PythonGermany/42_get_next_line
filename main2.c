@@ -1,44 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   main2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rburgsta <rburgsta@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/24 22:34:16 by rburgsta          #+#    #+#             */
-/*   Updated: 2022/10/24 22:34:16 by rburgsta         ###   ########.fr       */
+/*   Created: 2022/10/27 12:36:28 by rburgsta          #+#    #+#             */
+/*   Updated: 2022/10/27 12:36:28 by rburgsta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdlib.h>
+#include <stdio.h>
+#include <fcntl.h>
 #include <unistd.h>
+#include <stdlib.h>
 
-char	*get_next_line(int fd)
+int main()
 {
-	int		i;
-	char	*out;
-	char	*buffer;
+	int i = 0;
+	int fd1 = open("test1.txt", O_RDONLY);
+	char *str = (char *)1;
+	while (str)
+	{
+		str = get_next_line(fd1);
+		if (str)
+			printf("%i %s", i, str);
+		free(str);
+	}
+	close(fd1);
 
-	buffer = malloc(BUFFER_SIZE);
-	if (!buffer)
-		return (0);
-	i = 0;
-	out = 0;
-	while (read(fd, &buffer[i], 1) > 0 && buffer[i++] != '\n')
-	{
-		if (i == BUFFER_SIZE)
-		{
-			out = append_buffer(out, ft_substr(buffer, 0, i), i);
-			i = 0;
-		}
-	}
-	if (!i)
-	{
-		free(buffer);
-		return (0);
-	}
-	out = append_buffer(out, ft_substr(buffer, 0, i), i);
-	free(buffer);
-	return (out);
+	system("leaks a.out");
+	return (0);
 }
