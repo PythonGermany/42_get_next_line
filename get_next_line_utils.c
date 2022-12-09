@@ -49,7 +49,7 @@ char	*append_buffer(char *str, char *buffer, int size)
 		while (str[i])
 			i++;
 	out = malloc(i + size + 1);
-	if (!out)
+	if (!out || !buffer)
 		return (0);
 	str_len = i;
 	while (i-- > 0)
