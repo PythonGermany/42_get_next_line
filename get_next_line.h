@@ -18,10 +18,12 @@
 # endif
 
 #include <stddef.h>
+#include <stdlib.h>
 
 char	*get_next_line(int fd);
-int	ft_split_stash(char **line, char **src_stash, char **dst_stash);
+int	ft_split_stash(char **line, char **src_data, char **dst_data);
 int ft_strlen_gnl(char *str, int line_break);
 void ft_append_gnl(char **dst, char *src, int line_break);
+void	*ft_calloc(size_t count, size_t size);
 
 #endif

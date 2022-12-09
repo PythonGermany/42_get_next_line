@@ -19,50 +19,37 @@
 char	*get_next_line(int fd)
 {
 	int			ret;
-	//char		*buffer;
+	char		*buffer;
 	static char	*stash;
 	char		*line;
 
 	line = 0;
-
-	if (!stash)
-	{
-		stash = (char *)malloc(BUFFER_SIZE + 1);
-		stash[BUFFER_SIZE] = 0;
-		ret = read(fd, stash, BUFFER_SIZE);
-	}
-	//printf("'%s'\n", stash);
 	if (stash)
 		if (!ft_split_stash(&line, &stash, &stash))
 			return (line);
-	// if (!stash)
-	// {
-	// 	buffer = (char *)malloc(BUFFER_SIZE + 1);
-	// 	if (!buffer)
-	// 		return (0);
-	// 	buffer[BUFFER_SIZE] = 0;
-	// 	ret = read(fd, buffer, BUFFER_SIZE);
-	// 	while (ret > 0)
-	// 	{
-	// 		ft_append_gnl(&line, buffer, 1);
-	// 		ft_split_stash(&line, &buffer, &stash);
-	// 		ret = read(fd, buffer, BUFFER_SIZE);
-	// 	}
-	// 	free(buffer);
-	// }
+	if (!stash)
+	{
+		buffer = (char *)ft_calloc(1, BUFFER_SIZE + 1);
+		if (!buffer)
+			return (0);
+		ret = read(fd, buffer, BUFFER_SIZE);
+		while (ret > 0)
+		{
+			if (!ft_split_stash(&line, &buffer, &stash))
+				break ;
+			ret = read(fd, buffer, BUFFER_SIZE);
+		}
+	}
 	return (line);
 }
 
-//Checked==seems to work
-void ft_append_gnl(char **dst, char *src, int line_break)
+void	ft_append_gnl(char **dst, char *src, int line_break)
 {
-	int	i;
-	char *buf;
+	int		i;
+	char	*buf;
 
 	i = ft_strlen_gnl(*dst, line_break) + ft_strlen_gnl(src, line_break);
-	//printf("%i %i %i\n", i, ft_strlen_gnl(*dst, line_break), ft_strlen_gnl(src, line_break));
-	buf = (char *)malloc(i + 1);
-	buf[i] = 0;
+	buf = (char *)ft_calloc(1, i + 1);
 	while (i-- > ft_strlen_gnl(*dst, line_break))
 		buf[i] = src[i - ft_strlen_gnl(*dst, line_break)];
 	i = ft_strlen_gnl(*dst, line_break);
@@ -72,41 +59,38 @@ void ft_append_gnl(char **dst, char *src, int line_break)
 	*dst = buf;
 }
 
-int	ft_split_stash(char **line, char **src_stash, char **dst_stash)
+int	ft_split_stash(char **line, char **src_data, char **dst_data)
 {
 	int		i;
 	char	*buf;
 
-	if (ft_strlen_gnl(*src_stash, 0) == ft_strlen_gnl(*src_stash, 1))
+	if (ft_strlen_gnl(*src_data, 0) == ft_strlen_gnl(*src_data, 1))
 	{
-		ft_append_gnl(line, *src_stash, 0);
-		*dst_stash = 0;
+		ft_append_gnl(line, *src_data, 0);
+		if (*dst_data)
+			free(*dst_data);
+		//printf("line :%s\n", *line);
+		*dst_data = 0;
 		return (1);
 	}
-	i = ft_strlen_gnl(*src_stash, 0);
+	i = ft_strlen_gnl(*src_data, 0);
 	if (!*line)
-		*line = (char *)malloc(ft_strlen_gnl(*src_stash, 1) + 1);
-	buf = (char *)malloc(i - ft_strlen_gnl(*src_stash, 1) + 1);
+		*line = (char *)ft_calloc(1, ft_strlen_gnl(*src_data, 1) + 1);
+	buf = (char *)ft_calloc(1, i - ft_strlen_gnl(*src_data, 1) + 1);
 	if (!*line || !buf)
 		*line = 0;
 	else
 	{
-		line[0][ft_strlen_gnl(*src_stash, 1)] = 0;
-		buf[i - ft_strlen_gnl(*src_stash, 1)] = 0;
-		//ft_append_gnl(&buf, *src_stash + ft_strlen_gnl(*src_stash, 1), 0);
-		while (i-- > ft_strlen_gnl(*src_stash, 1)) 
-			buf[i - ft_strlen_gnl(*src_stash, 1)] = src_stash[0][i];
-		i = ft_strlen_gnl(*src_stash, 1);
-		//ft_append_gnl(line, *src_stash, 1);
-		while (i-- > 0) 
-			line[0][i] = src_stash[0][i];
-		free(*src_stash);
-		*dst_stash = buf;
+		ft_append_gnl(&buf, *src_data + ft_strlen_gnl(*src_data, 1), 0);
+		//printf("src_data :%s\n", *src_data + ft_strlen_gnl(*src_data, 1));
+		ft_append_gnl(line, *src_data, 1);
+		free(*src_data);
+		*dst_data = buf;
 	}
 	return (0);
 }
 
-int ft_strlen_gnl(char *str, int line_break)
+int	ft_strlen_gnl(char *str, int line_break)
 {
 	int	i;
 

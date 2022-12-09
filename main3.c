@@ -16,25 +16,26 @@ int main()
 	// for (int i = 0; i < 40; i++)
 	// 	printf("%i ", dst[i]);
 
-	char *str;
-	str = get_next_line(0);
-	printf("%s", str);
-	free(str);
-	str = get_next_line(0);
-	printf("%s", str);
-	free(str);
-	str = get_next_line(0);
-	printf("%s", str);
-	free(str);
+	// char *str;
+	// str = get_next_line(0);
+	// printf("'%s'", str);
+	// free(str);
+	// str = get_next_line(0);
+	// printf("'%s'", str);
+	// free(str);
+	// str = get_next_line(0);
+	// printf("'%s'", str);
+	// free(str);
 
-	// int i = 0;
-	// char *str = (char *)1;
-	// while (str)
-	// {
-	// 	str = get_next_line(0);
-	// 	printf("%i|%s", i++, str);
-	// 	free(str);
-	// }
+	//int i = 0;
+	char *str = (char *)1;
+	while (str)
+	{
+		str = get_next_line(0);
+		//printf("%i|%s", i++, str);
+		printf("%s", str);
+		free(str);
+	}
 
 	//system("leaks a.out");
 	return (0);
