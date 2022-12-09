@@ -28,7 +28,7 @@ char	*get_next_line(int fd)
 		return (0);
 	i = 0;
 	out = 0;
-	ret = read(fd, &buffer[i], 1);
+	ret = read(fd, &buffer[i++], 1);
 	while (ret > 0 && buffer[i++] != '\n')
 	{
 		if (i == BUFFER_SIZE)
@@ -41,7 +41,9 @@ char	*get_next_line(int fd)
 	if (ret < 1)
 	{
 		free(buffer);
-		return (0);
+		if (out)
+			free(out);
+		return (out);
 	}
 	out = append_buffer(out, ft_substr(buffer, 0, i), i);
 	free(buffer);
