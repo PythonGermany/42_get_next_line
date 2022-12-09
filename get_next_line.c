@@ -19,10 +19,10 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	line = 0;
-	if (stash)
+	if (stash && fd >= 0 && BUFFER_SIZE > 0)
 		if (!split_data(&line, &stash, &stash))
 			return (line);
-	if (!stash)
+	if (!stash && fd >= 0 && BUFFER_SIZE > 0)
 		read_data(fd, &line, &stash);
 	return (line);
 }
