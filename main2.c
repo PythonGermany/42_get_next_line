@@ -19,16 +19,16 @@
 int main()
 {
 	int i = 0;
-	int fd = open("test1.txt", O_RDONLY);
+	int fd1 = open("test1.txt", O_RDONLY);
 	char *str = (char *)1;
-	//printf("fd: %i\n", fd);
+	//printf("fd1: %i\n", fd1);
 	while (str)
 	{
-		str = get_next_line(fd);
+		str = get_next_line(fd1);
 		printf("%i|%s", i++, str);
 		free(str);
 	}
-	close(fd);
+	close(fd1);
 	//printf("end allocated: %i\n", *get_allocated());
 	//system("leaks a.out");
 	return (0);

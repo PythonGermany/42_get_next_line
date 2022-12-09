@@ -10,14 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
-int allocated = 0;
-
-int *get_allocated()
-{
-	return (&allocated);
-}
+#include "get_next_line.h"
 
 void	*ft_calloc(size_t count, size_t size)
 {
@@ -28,15 +21,8 @@ void	*ft_calloc(size_t count, size_t size)
 	if (((count == (size_t)-1 && size) || (size == (size_t)-1 && count)))
 		return (0);
 	ptr = malloc(count * size);
-	allocated++;
 	if (ptr)
 		while (i < count * size)
 			*((unsigned char *)ptr + i++) = 0;
 	return (ptr);
-}
-
-void ft_free(void *ptr)
-{
-	free(ptr);
-	allocated--;
 }

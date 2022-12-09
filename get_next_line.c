@@ -11,10 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdlib.h>
 #include <unistd.h>
-
-#include <stdio.h>
 
 char	*get_next_line(int fd)
 {
@@ -35,58 +32,61 @@ char	*get_next_line(int fd)
 		ret = read(fd, buffer, BUFFER_SIZE);
 		while (ret > 0)
 		{
+			buffer[ret] = 0;
 			if (!ft_split_data(&line, &buffer, &stash))
 				break ;
 			ret = read(fd, buffer, BUFFER_SIZE);
 		}
+		if (buffer && ret == 0)
+			free(buffer);
 	}
 	return (line);
-}
-
-void	ft_append_gnl(char **dst, char *src, int line_break)
-{
-	int		i;
-	char	*buf;
-
-	i = ft_strlen_gnl(*dst, line_break) + ft_strlen_gnl(src, line_break);
-	buf = (char *)ft_calloc(1, i + 1);
-	while (i-- > ft_strlen_gnl(*dst, line_break))
-		buf[i] = src[i - ft_strlen_gnl(*dst, line_break)];
-	i = ft_strlen_gnl(*dst, line_break);
-	while (i-- > 0)
-		buf[i] = dst[0][i];
-	if (*dst)
-		ft_free(*dst);
-	*dst = buf;
 }
 
 int	ft_split_data(char **line, char **src_data, char **dst_data)
 {
 	char	*buf;
 
-	if (ft_strlen_gnl(*src_data, 0) == ft_strlen_gnl(*src_data, 1))
+	if (ft_strlen(*src_data, 0) == ft_strlen(*src_data, 1))
 	{
-		ft_append_gnl(line, *src_data, 0);
+		ft_cpappend(line, *src_data, 0);
 		if (*dst_data)
-			ft_free(*dst_data);
+			free(*dst_data);
 		*dst_data = 0;
-		if (ft_strlen_gnl(*line, 0) > 0 && line[0][ft_strlen_gnl(*line, 0) - 1] == '\n')
+		if (ft_strlen(*line, 0) > 0 && line[0][ft_strlen(*line, 0) - 1] == 10)
 		{
 			if (*src_data)
-				ft_free(*src_data);
+				free(*src_data);
 			return (0);
 		}
 		return (1);
 	}
 	buf = 0;
-	ft_append_gnl(&buf, *src_data + ft_strlen_gnl(*src_data, 1), 0);
-	ft_append_gnl(line, *src_data, 1);
-	ft_free(*src_data);
+	ft_cpappend(&buf, *src_data + ft_strlen(*src_data, 1), 0);
+	ft_cpappend(line, *src_data, 1);
+	free(*src_data);
 	*dst_data = buf;
 	return (0);
 }
 
-int	ft_strlen_gnl(char *str, int line_break)
+void	ft_cpappend(char **dst, char *src, int line_break)
+{
+	int		i;
+	char	*buf;
+
+	i = ft_strlen(*dst, line_break) + ft_strlen(src, line_break);
+	buf = (char *)ft_calloc(1, i + 1);
+	while (i-- > ft_strlen(*dst, line_break))
+		buf[i] = src[i - ft_strlen(*dst, line_break)];
+	i = ft_strlen(*dst, line_break);
+	while (i-- > 0)
+		buf[i] = dst[0][i];
+	if (*dst)
+		free(*dst);
+	*dst = buf;
+}
+
+int	ft_strlen(char *str, int line_break)
 {
 	int	i;
 

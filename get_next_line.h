@@ -14,19 +14,15 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 10
 # endif
 
-#include <stddef.h>
 #include <stdlib.h>
 
 char	*get_next_line(int fd);
-int	ft_split_data(char **line, char **src_data, char **dst_data);
-int ft_strlen_gnl(char *str, int line_break);
-void ft_append_gnl(char **dst, char *src, int line_break);
+int		ft_split_data(char **line, char **src_data, char **dst_data);
+void	ft_cpappend(char **dst, char *src, int line_break);
+int		ft_strlen(char *str, int line_break);
 void	*ft_calloc(size_t count, size_t size);
-
-int *get_allocated();
-void ft_free(void *ptr);
 
 #endif
