@@ -26,10 +26,3 @@ void	*ft_calloc(size_t count, size_t size)
 			*((unsigned char *)ptr + i++) = 0;
 	return (ptr);
 }
-
-void	ft_free(void **ptr, void *new)
-{
-	if (*ptr)
-		free(*ptr);
-	*ptr = new;
-}
