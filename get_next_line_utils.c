@@ -54,8 +54,11 @@ char	*append_buffer(char *str, char *buffer, int size)
 	str_len = i;
 	while (i-- > 0)
 		out[i] = str[i];
+	if (str)
+		free(str);
 	out[str_len + size] = 0;
 	while (size-- > 0)
 		out[str_len + size] = buffer[size];
+	free(buffer);
 	return (out);
 }

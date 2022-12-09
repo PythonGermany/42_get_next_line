@@ -2,18 +2,18 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 int main()
 {
 	int fd1 = open("test1.txt", O_RDONLY);
-	int fd2 = open("test2.txt", O_RDONLY);
-
-	for (int i = 0; i < 5; i++)
+	char *str = (char *)1;
+	while (str)
 	{
-		printf("%s", get_next_line(fd1));
-		printf("%s", get_next_line(fd2));
+		str = get_next_line(fd1);
+		printf("%s", str);
+		free(str);
 	}
-	printf("%s", get_next_line(0));
 	close(fd1);
-	close(fd2);
+	system("leaks a.out");
 }
