@@ -53,7 +53,7 @@ int	ft_split_data(char **line, char **src_data, char **dst_data)
 		if (*dst_data)
 			free(*dst_data);
 		*dst_data = 0;
-		if (ft_strlen(*line, 0) > 0 && line[0][ft_strlen(*line, 0) - 1] == 10)
+		if (line[0][ft_strlen(*line, 0) - 1] == '\n')
 		{
 			if (*src_data)
 				free(*src_data);
