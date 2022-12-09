@@ -74,10 +74,9 @@ int	split_data(char **line, char **src_data, char **dst_data)
 		return (1);
 	}
 	buf = 0;
-	if (ft_cpappend(line, *src_data, 1))
-		*line = 0;
-	else if (ft_cpappend(&buf, *src_data + ft_strlen(*src_data, 1), 0))
-		*line = 0;
+	if (!ft_cpappend(line, *src_data, 1))
+		if (ft_cpappend(&buf, *src_data + ft_strlen(*src_data, 1), 0))
+			*line = 0;
 	free(*src_data);
 	*dst_data = buf;
 	return (0);
