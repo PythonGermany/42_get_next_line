@@ -18,7 +18,6 @@
 # endif
 
 # include <stdlib.h>
-# include <limits.h>
 
 char	*get_next_line(int fd);
 void	read_data(int fd, char **line, char **stash);
