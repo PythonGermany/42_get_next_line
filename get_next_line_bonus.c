@@ -15,17 +15,15 @@
 
 char	*get_next_line(int fd)
 {
-	static char	**stash;
+	static char	*stash[1024];
 	char		*line;
 
 	line = 0;
-	if (!stash)
-		stash = (char **)ft_calloc(1024, sizeof(char *));
 	if (stash[fd] && fd >= 0 && BUFFER_SIZE > 0)
-		if (!split_data(&line, stash, stash))
+		if (!split_data(&line, &stash[fd], &stash[fd]))
 			return (line);
 	if (!stash[fd] && fd >= 0 && BUFFER_SIZE > 0)
-		read_data(fd, &line, stash);
+		read_data(fd, &line, &stash[fd]);
 	return (line);
 }
 
@@ -55,8 +53,6 @@ void	read_data(int fd, char **line, char **stash)
 		free(*line);
 		*line = 0;
 	}
-	if (!ft_test(stash) && ret < 1)
-		free(stash);
 }
 
 int	split_data(char **line, char **src_data, char **dst_data)
