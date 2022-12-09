@@ -29,23 +29,17 @@ char	*get_next_line(int fd)
 	i = 0;
 	out = 0;
 	ret = read(fd, &buffer[i++], 1);
-	while (ret > 0 && buffer[i++] != '\n')
+	while (ret > 0)
 	{
-		if (i == BUFFER_SIZE)
+		if (i == BUFFER_SIZE || ret < 1 || buffer[i - 1] == '\n')
 		{
 			out = append_buffer(out, ft_substr(buffer, 0, i), i);
+			if (buffer[i - 1] == '\n')
+				break ;
 			i = 0;
 		}
-		ret = read(fd, &buffer[i], 1);
+		ret = read(fd, &buffer[i++], 1);
 	}
-	if (ret < 1)
-	{
-		free(buffer);
-		if (out)
-			free(out);
-		return (out);
-	}
-	out = append_buffer(out, ft_substr(buffer, 0, i), i);
 	free(buffer);
 	return (out);
 }

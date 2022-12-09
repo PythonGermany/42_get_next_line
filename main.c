@@ -11,11 +11,9 @@ int main()
 	while (str)
 	{
 		str = get_next_line(0);
-		if (str)
-			printf("%i %s", i++, str);
+		printf("%i %s", i++, str);
 		free(str);
 	}
-
-	system("leaks a.out");
+	//system("leaks a.out");
 	return (0);
 }

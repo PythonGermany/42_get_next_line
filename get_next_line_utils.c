@@ -12,7 +12,7 @@
 
 #include <stdlib.h>
 
-char	*ft_substr(char *s, unsigned int start, int len)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*dest;
 	size_t	i;
@@ -23,7 +23,7 @@ char	*ft_substr(char *s, unsigned int start, int len)
 	while (s[i] && i < start)
 		i++;
 	if (i < start)
-		return (malloc(1));
+		return ((char *)malloc(1));
 	while (s[i] && i < start + len)
 		i++;
 	dest = (char *)malloc(i - start + 1);
