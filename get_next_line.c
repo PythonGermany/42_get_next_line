@@ -25,7 +25,7 @@ char	*get_next_line(int fd)
 
 	line = 0;
 	if (stash)
-		if (!ft_split_stash(&line, &stash, &stash))
+		if (!ft_split_data(&line, &stash, &stash))
 			return (line);
 	if (!stash)
 	{
@@ -35,7 +35,7 @@ char	*get_next_line(int fd)
 		ret = read(fd, buffer, BUFFER_SIZE);
 		while (ret > 0)
 		{
-			if (!ft_split_stash(&line, &buffer, &stash))
+			if (!ft_split_data(&line, &buffer, &stash))
 				break ;
 			ret = read(fd, buffer, BUFFER_SIZE);
 		}
@@ -55,38 +55,34 @@ void	ft_append_gnl(char **dst, char *src, int line_break)
 	i = ft_strlen_gnl(*dst, line_break);
 	while (i-- > 0)
 		buf[i] = dst[0][i];
-	free(*dst);
+	if (*dst)
+		ft_free(*dst);
 	*dst = buf;
 }
 
-int	ft_split_stash(char **line, char **src_data, char **dst_data)
+int	ft_split_data(char **line, char **src_data, char **dst_data)
 {
-	int		i;
 	char	*buf;
 
 	if (ft_strlen_gnl(*src_data, 0) == ft_strlen_gnl(*src_data, 1))
 	{
 		ft_append_gnl(line, *src_data, 0);
 		if (*dst_data)
-			free(*dst_data);
-		//printf("line :%s\n", *line);
+			ft_free(*dst_data);
 		*dst_data = 0;
+		if (ft_strlen_gnl(*line, 0) > 0 && line[0][ft_strlen_gnl(*line, 0) - 1] == '\n')
+		{
+			if (*src_data)
+				ft_free(*src_data);
+			return (0);
+		}
 		return (1);
 	}
-	i = ft_strlen_gnl(*src_data, 0);
-	if (!*line)
-		*line = (char *)ft_calloc(1, ft_strlen_gnl(*src_data, 1) + 1);
-	buf = (char *)ft_calloc(1, i - ft_strlen_gnl(*src_data, 1) + 1);
-	if (!*line || !buf)
-		*line = 0;
-	else
-	{
-		ft_append_gnl(&buf, *src_data + ft_strlen_gnl(*src_data, 1), 0);
-		//printf("src_data :%s\n", *src_data + ft_strlen_gnl(*src_data, 1));
-		ft_append_gnl(line, *src_data, 1);
-		free(*src_data);
-		*dst_data = buf;
-	}
+	buf = 0;
+	ft_append_gnl(&buf, *src_data + ft_strlen_gnl(*src_data, 1), 0);
+	ft_append_gnl(line, *src_data, 1);
+	ft_free(*src_data);
+	*dst_data = buf;
 	return (0);
 }
 

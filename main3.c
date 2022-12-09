@@ -36,7 +36,7 @@ int main()
 		printf("%s", str);
 		free(str);
 	}
-
+	//printf("end allocated: %i\n", *get_allocated());
 	//system("leaks a.out");
 	return (0);
 }
