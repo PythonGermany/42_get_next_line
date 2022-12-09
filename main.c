@@ -11,7 +11,7 @@ int main()
 	while (str)
 	{
 		str = get_next_line(0);
-		printf("%i %s", i++, str);
+		printf("%i|%s", i++, str);
 		free(str);
 	}
 	//system("leaks a.out");

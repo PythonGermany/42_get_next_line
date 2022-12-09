@@ -20,5 +20,7 @@
 char	*get_next_line(int fd);
 char	*ft_substr(char *s, unsigned int start, int len);
 char	*append_buffer(char *str, char *buffer, int size);
+int		contains_char(char *str, char c);
+int		ft_strlen(char *s);
 
 #endif

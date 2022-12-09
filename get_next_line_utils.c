@@ -54,11 +54,29 @@ char	*append_buffer(char *str, char *buffer, int size)
 	str_len = i;
 	while (i-- > 0)
 		out[i] = str[i];
-	if (str)
-		free(str);
 	out[str_len + size] = 0;
 	while (size-- > 0)
 		out[str_len + size] = buffer[size];
-	free(buffer);
 	return (out);
+}
+
+int contains_char(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		if (str[i++] == c)
+			return (i);
+	return (-1);
+}
+
+int	ft_strlen(char *s)
+{
+	int	len;
+
+	len = 0;
+	while (s[len])
+		len++;
+	return (len);
 }

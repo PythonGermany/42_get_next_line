@@ -16,30 +16,30 @@
 
 char	*get_next_line(int fd)
 {
-	int		i;
-	char	*out;
 	char	*buffer;
+	char	*line;
 	int		ret;
+	static char *stash;
 
-	if (BUFFER_SIZE < 1)
+	if (fd < 0 || BUFFER_SIZE < 1)
 		return (0);
 	buffer = malloc(BUFFER_SIZE);
 	if (!buffer)
 		return (0);
-	i = 0;
-	out = 0;
-	ret = read(fd, &buffer[i++], 1);
+	ret = read(fd, buffer, BUFFER_SIZE);
+	if (ret < 1)
+		return (0);
 	while (ret > 0)
 	{
-		if (i == BUFFER_SIZE || ret < 1 || buffer[i - 1] == '\n')
+		stash = append_buffer(stash, buffer, ret);
+		if (contains_char(stash, '\n') != -1)
 		{
-			out = append_buffer(out, ft_substr(buffer, 0, i), i);
-			if (buffer[i - 1] == '\n')
-				break ;
-			i = 0;
+			line = ft_substr(stash, 0, contains_char(stash, '\n'));
+			stash += contains_char(stash, '\n');
+			break ;
 		}
-		ret = read(fd, &buffer[i++], 1);
+		ret = read(fd, buffer, BUFFER_SIZE);
 	}
 	free(buffer);
-	return (out);
+	return (line);
 }
